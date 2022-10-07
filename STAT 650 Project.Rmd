@@ -13,7 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease
 
-The Heart Disease data set came from Kaggle, while the actual data comes from the 2020 annual CDC survey data of 400k adults related to their health status.  The dimensions of the data set are 319,795 observations of 18 variables.  The primary variable of interest is `HeartDisease`, which indicates by `Yes/No` whether the subject had heart disease.  The remaining variables are various factors such as Race, whether or not they smoke or drink alcohol, etc.
+The Heart Disease data set came from Kaggle, while the actual data comes from the 2020 annual CDC survey data of 400k adults related to their health status.
+The dimensions of the data set are 319,795 observations of 18 variables.
+The primary variable of interest is `HeartDisease`, which indicates by `Yes/No` whether
+the subject had heart disease.  The remaining variables are various factors such as Race,
+whether or not they smoke or drink alcohol, etc.
 
 
 ```{r}
