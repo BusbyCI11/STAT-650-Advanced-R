@@ -11,14 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Research Question/Data Analysis Goals
 
-What are the largest factors in Heart Disease?  (too vague/ambitious?  What kind of graphs are needed?)
+https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease
 
-The Heart Disease data set came from Kaggle, while the actual data comes from the 2020 annual CDC survey data of 400k adults related to their health status.  The dimensions of the data set are 319,795 observations of 18 variables.  The primary variable of interest is `HeartDisease`, which indicates by `Yes/No` whether the subject had heart disease.  The remaining variables are various factors such as Race, whether or not they smoke or drink alcohol, 
+The Heart Disease data set came from Kaggle, while the actual data comes from the 2020 annual CDC survey data of 400k adults related to their health status.  The dimensions of the data set are 319,795 observations of 18 variables.  The primary variable of interest is `HeartDisease`, which indicates by `Yes/No` whether the subject had heart disease.  The remaining variables are various factors such as Race, whether or not they smoke or drink alcohol, etc.
 
-
-## Note
-
-Turn `GenHealth` into a factor
 
 ```{r}
 library(tidyverse)
@@ -29,14 +25,15 @@ heart.clean <- read_csv("heart_2020_cleaned.csv")
 ```
 
 ```{r}
+# Note: slice_sample is leftover from playing around with sampling, 319795 is entirety of data set.
 set.seed(867)
-heart.sample <- slice_sample(heart.clean, n = 15000)
+heart.sample <- slice_sample(heart.clean, n = 319795)
 glimpse(heart.sample)
 ```
 
 ```{r}
 ggplot(heart.sample) +
-  geom_bar(aes(x=HeartDisease, fill = Smoking), position = "fill")  +
+  geom_bar(aes(x=Smoking, fill = HeartDisease), position = "fill")  +
   facet_grid(Stroke ~ Sex,labeller = purrr::partial(label_both,sep = "=")) +
   ylab("Proportion")
 ```
@@ -50,49 +47,8 @@ ggplot(heart.sample) +
 
 ```{r}
 ggplot(heart.sample) +
-  geom_bar(aes(x = HeartDisease, fill = PhysicalActivity),position = "fill") +
-  facet_grid(Smoking ~ Sex, labeller = purrr::partial(label_both,sep = "=")) +
-  ylab("Proportion")
-```
-
-# ```{r}
-# Does weird stuff, doesn't work 
-#
-# ggplot(heart.sample) +
-#   geom_bar(aes(x = HeartDisease),position = "fill") +
-#   facet_grid(Smoking ~ Sex + Stroke, labeller = purrr::partial(label_both,sep = "=")) + 
-#   ylab("Proportion")
-# ```
-
-```{r}
-ggplot(heart.sample) +
-  geom_bar(aes(x = HeartDisease,y = (..prop..), group = 1, fill = Sex),position = "dodge") +
-  facet_grid(Smoking + Sex ~ Stroke + PhysicalActivity, labeller = purrr::partial(label_both,sep = "="))
-```
-
-
-
-
-```{r}
-ggplot(heart.sample) +
-  geom_bar(aes(x = HeartDisease, fill = Sex),position = "fill") +
-  facet_grid(Smoking ~ Stroke, labeller = purrr::partial(label_both,sep = "="))
-```
-
-
-```{r}
-ggplot(heart.sample) +
-  geom_histogram(aes(x=BMI, fill = HeartDisease), bins = 70)
-```
-
-```{r}
-ggplot(heart.sample) +
-  geom_histogram(aes(MentalHealth, fill = AgeCategory), binwidth = 50, position = "dodge")
-```
-
-```{r}
-ggplot(heart.sample) +
-  geom_bar(aes(HeartDisease, fill = AgeCategory), position = "fill",) +
+  geom_bar(aes(x = PhysicalActivity, fill = HeartDisease),position = "fill") +
+  facet_grid(Smoking ~ AlcoholDrinking, labeller = purrr::partial(label_both,sep = "=")) +
   ylab("Proportion")
 ```
 
@@ -104,11 +60,13 @@ ggplot(heart.sample) +
 
 ```{r}
 ggplot(heart.sample) +
-  geom_bar(aes(GenHealth, fill = AgeCategory), position = "fill") +
-  facet_wrap(vars(HeartDisease),labeller = purrr::partial(label_both,sep = "="))
+  geom_bar(aes(HeartDisease, fill = AgeCategory), position = "fill",) +
+  ylab("Proportion")
 ```
 
 
-
-
-
+```{r}
+ggplot(heart.sample) +
+  geom_bar(aes(GenHealth, fill = AgeCategory), position = "fill") +
+  facet_wrap(vars(HeartDisease),labeller = purrr::partial(label_both,sep = "="))
+```
